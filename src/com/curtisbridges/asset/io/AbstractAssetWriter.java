@@ -31,7 +31,7 @@ public abstract class AbstractAssetWriter implements AssetWriter {
     
     // Asset Name, Bios Name, User, Model, Serial, Ram, OS
     protected static final String[] HEADERS = { 
-        "Asset Name", PROP_NETBIOS, PROP_USER, PROP_MODEL, PROP_SN, PROP_MEM, PROP_OS 
+        "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "RAM", "Operating System" 
     };
     
     protected BufferedWriter writer;

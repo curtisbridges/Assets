@@ -6,7 +6,29 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class ScreenUtilities {
+    public static void setSystemLnF() {
+        try {
+            // Set System L&F
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(UnsupportedLookAndFeelException e) {
+            // handle exception
+        }
+        catch(ClassNotFoundException e) {
+            // handle exception
+        }
+        catch(InstantiationException e) {
+            // handle exception
+        }
+        catch(IllegalAccessException e) {
+            // handle exception
+        }
+    }
+
     public static void centerOnScreen(Window window) {
         if(window.isVisible()) {
             Dimension screenRes = Toolkit.getDefaultToolkit().getScreenSize();

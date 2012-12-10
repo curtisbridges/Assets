@@ -26,6 +26,13 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
     private static final float VER_WINDOWS_98 = 4.1f;
     private static final float VER_WINDOWS_NT = 4.0f;
     
+    private static final String COLOR_RED = "#FF6B6B";
+    private static final String COLOR_ORANGE = "orange";
+    private static final String COLOR_YELLOW = "#D4DB48";
+    private static final String COLOR_GREEN =  "#6FC965";
+    private static final String COLOR_BLUE = "#6B93FF";
+    private static final String COLOR_NONE = "";
+
     // Asset Name, Bios Name, User, Model, Serial, Ram, OS
     @Override
     protected String getString(ConsolidatedAsset asset) {
@@ -44,8 +51,8 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("<td>");
         buffer.append(name);
         buffer.append("</td><td>");
-        buffer.append(getProp(props, PROP_NETBIOS));
-        buffer.append("</td><td>");
+//        buffer.append(getProp(props, PROP_NETBIOS));
+//        buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_USER));
         buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_MODEL));
@@ -80,7 +87,7 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
             buffer.append(header);
             buffer.append("</th>");
         }
-        buffer.append("</tr>");
+        buffer.append("</tr>\n");
         return buffer.toString();
     }
 
@@ -88,11 +95,49 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
     protected String getFooter() {
         StringBuffer buffer = new StringBuffer();
         
+        buffer.append("Legend<br />");
+        buffer.append("</table>\n");
+        buffer.append("<table>\n<tr><th>RAM</th><th>Windows Version</th></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_RED + ";\"><td>&lt2GB</td><td>XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_ORANGE + ";\"><td>&lt3GB</td><td>XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_YELLOW + ";\"><td>&gt3GB</td><td>XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_BLUE + ";\"><td>&lt3GB</td><td>7</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_GREEN + ";\"><td>&gt3GB</td><td>7</td></tr>");
         buffer.append("</table>");
-        buffer.append("<p align=\"center\" class=\"footernote\">Cinch IT offers Computer Service in Worcester, Westborough, Framingham, Natick, Shrewsbury, Marlborough, Auburn, Waltham, as well as all other areas in Massachusetts.</p>");
-        buffer.append("</html>");
+        buffer.append("</html>\n");
         
         return buffer.toString();
+    }
+
+    private String getColorString(ConsolidatedAsset asset) {
+        double ram = getMegaBytesOfRam(asset);
+        if(isWindows(asset)) {
+            float version = getWindowsVersion(asset);
+            if(version < VER_WINDOWS_VISTA) {
+                // Red = less than 2gb AND xp
+                if(ram < (2 * GIGABYTE))
+                    return COLOR_RED;
+                // orange = less than 3gb AND xp
+                else if(ram < (3 * GIGABYTE))
+                    return COLOR_ORANGE;
+                // yellow = 3gb+ AND XP
+                else
+                    return COLOR_YELLOW;
+            }
+            else if(version > VER_WINDOWS_VISTA) {
+                // green = 3gb + and win7
+                if(ram >= (3 * GIGABYTE))
+                    return COLOR_GREEN;
+                // blue = less than 3gb and Win 7    
+                else
+                    return COLOR_BLUE;
+            }
+            // not sure how it can get here, but flag it!
+            return "pink";
+        }
+        else {
+            return COLOR_NONE;
+        }
     }
     
     private double getMegaBytesOfRam(ConsolidatedAsset asset) {
@@ -121,38 +166,7 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
             return 0;
         }
     }
-    
-    private String getColorString(ConsolidatedAsset asset) {
-        double ram = getMegaBytesOfRam(asset);
-        if(isWindows(asset)) {
-            float version = getWindowsVersion(asset);
-            if(version < VER_WINDOWS_VISTA) {
-                // Red = less than 2gb AND xp
-                if(ram < (2 * GIGABYTE))
-                    return "#FF6B6B";
-                // orange = less than 3gb AND xp
-                else if(ram < (3 * GIGABYTE))
-                    return "orange";
-                // yellow = 3gb+ AND XP
-                else
-                    return "#D4DB48";
-            }
-            else if(version > VER_WINDOWS_VISTA) {
-                // green = 3gb + and win7
-                if(ram >= (3 * GIGABYTE))
-                    return "#6FC965";
-                // blue = less than 3gb and Win 7    
-                else
-                    return "#6B93FF";
-            }
-            // not sure how it can get here, but flag it!
-            return "pink";
-        }
-        else {
-            return "";
-        }
-    }
-    
+
     private boolean isWindows(ConsolidatedAsset asset) {
         String os = asset.getProperties().get(PROP_OS);
         if(os != null) {
