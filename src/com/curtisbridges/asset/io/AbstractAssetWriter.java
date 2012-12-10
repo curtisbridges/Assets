@@ -35,6 +35,7 @@ public abstract class AbstractAssetWriter implements AssetWriter {
     protected static final String[] HEADERS = { 
         "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "RAM", "Operating System" 
     };
+    private static final String MICROSOFT = "Microsoft ";
     
     protected BufferedWriter writer;
     protected List<AssetFilter> rowFilters;
@@ -129,7 +130,23 @@ public abstract class AbstractAssetWriter implements AssetWriter {
         }
     }
     
+    protected String getOsProp(Map<String, String> properties) {
+        if(properties.containsKey(PROP_OS)) {
+            String os = properties.get(PROP_OS);
+            if(os.startsWith(MICROSOFT))
+                return os.substring(MICROSOFT.length());
+            else
+                return os;
+        }
+        else {
+            return "-";
+        }
+    }
+    
     protected String getProp(Map<String, String> map, String key) {
+        if(key.equals(PROP_OS))
+            return getOsProp(map);
+        
         if(map.containsKey(key)) {
             return map.get(key);
         }
