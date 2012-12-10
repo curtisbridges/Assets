@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -48,19 +49,21 @@ import com.curtisbridges.ui.util.ScreenUtilities;
 
 @SuppressWarnings("serial")
 public class AssetFrame extends JFrame implements AssetListener {
-    private File               inputFile;
-    private File               outputFile;
-    
-    private OpenCsvAssetReader reader;
-    private List<Asset>        assets;
+    private File                inputFile;
+    private File                outputFile;
 
-    private JTextField         filterField;
-    private JLabel             rowsLabel;
-    private JTabbedPane        tabs;
-    private JTree              tree;
-    private JTable             table;
-    private AssetTableModel    assetTableModel;
-    private StatusBar          statusBar;
+    private OpenCsvAssetReader  reader;
+    private List<Asset>         assets;
+
+    private static final String ICON = "images/favicon.png";
+    private ImageIcon           icon;
+    private JTextField          filterField;
+    private JLabel              rowsLabel;
+    private JTabbedPane         tabs;
+    private JTree               tree;
+    private JTable              table;
+    private AssetTableModel     assetTableModel;
+    private StatusBar           statusBar;
 
 //    private JPopupMenu         popupMenu;
 
@@ -70,6 +73,9 @@ public class AssetFrame extends JFrame implements AssetListener {
     
     public AssetFrame(File file) {
         super("Assets");
+        
+        icon = new ImageIcon(ICON);
+        setIconImage(icon.getImage());
         
         inputFile = file;
         reader = new OpenCsvAssetReader();
