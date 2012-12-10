@@ -95,14 +95,14 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
     protected String getFooter() {
         StringBuffer buffer = new StringBuffer();
         
+        buffer.append("</table>\n<br />\n");
         buffer.append("Legend<br />");
-        buffer.append("</table>\n");
-        buffer.append("<table>\n<tr><th>RAM</th><th>Windows Version</th></tr>\n");
-        buffer.append("<tr style=\"background-color: " + COLOR_RED + ";\"><td>&lt2GB</td><td>XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_ORANGE + ";\"><td>&lt3GB</td><td>XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_YELLOW + ";\"><td>&gt3GB</td><td>XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_BLUE + ";\"><td>&lt3GB</td><td>7</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_GREEN + ";\"><td>&gt3GB</td><td>7</td></tr>");
+        buffer.append("<table>\n<tr><th>RAM</th><th>OS</th></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_RED + ";\"><td>&lt2GB</td><td>Windows XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_ORANGE + ";\"><td>&lt3GB</td><td>Windows XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_YELLOW + ";\"><td>&gt3GB</td><td>Windows XP</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_BLUE + ";\"><td>&lt3GB</td><td>Windows 7</td></tr>");
+        buffer.append("<tr style=\"background-color: " + COLOR_GREEN + ";\"><td>&gt3GB</td><td>Windows 7</td></tr>");
         buffer.append("</table>");
         buffer.append("</html>\n");
         

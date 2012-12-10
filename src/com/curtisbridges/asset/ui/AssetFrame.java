@@ -165,7 +165,7 @@ public class AssetFrame extends JFrame implements AssetListener {
     
     private void setRows(int rows) {
         rowsLabel.setVisible(rows > 0);
-        rowsLabel.setText("Rows: " + rows);
+        rowsLabel.setText(" Rows: " + rows);
     }
     
     private void doSorting() {

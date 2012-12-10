@@ -12,7 +12,7 @@ public class AssetConsolidator {
         List<ConsolidatedAsset> assets = new ArrayList<ConsolidatedAsset>();
         
         // sort the assets by name
-        Collections.sort(results, new AssetNameCompator());
+        Collections.sort(results, new AssetNameComparator());
         
         // consolidate the assets
         Map<String, List<Asset>> assetMap = new HashMap<String, List<Asset>>();

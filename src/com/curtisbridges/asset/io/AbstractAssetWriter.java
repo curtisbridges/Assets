@@ -7,6 +7,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.curtisbridges.asset.Asset;
 import com.curtisbridges.asset.AssetConsolidator;
 import com.curtisbridges.asset.AssetFilter;
 import com.curtisbridges.asset.ConsolidatedAsset;
+import com.curtisbridges.asset.ConsolidatedAssetComparator;
 import com.curtisbridges.asset.MultiPatternAssetFilter;
 import com.curtisbridges.asset.PatternAssetFilter;
 
@@ -108,6 +110,8 @@ public abstract class AbstractAssetWriter implements AssetWriter {
 
         // then combine them into a single entity
         List<ConsolidatedAsset> consolidated = AssetConsolidator.process(rows);
+        Collections.sort(consolidated, new ConsolidatedAssetComparator());
+        
         try {
             writer.write(getHeader());
         
