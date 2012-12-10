@@ -7,7 +7,6 @@ import java.io.IOException;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.curtisbridges.asset.Asset;
-import com.curtisbridges.asset.events.LoggingAssetListener;
 
 public class OpenCsvAssetReader extends AbstractAssetReader {
     private boolean isDone = false;
@@ -17,7 +16,7 @@ public class OpenCsvAssetReader extends AbstractAssetReader {
     public void openFileByName(String filename) {
         try {
             isDone = false;
-            csvReader = new CSVReader(new FileReader(filename), ',', '"');
+            csvReader = new CSVReader(new FileReader(filename), ',', '"', 4);
         }
         catch(FileNotFoundException exc) {
             exc.printStackTrace();
@@ -64,17 +63,5 @@ public class OpenCsvAssetReader extends AbstractAssetReader {
     @Override
     protected String getNextLine() {
         return null;
-    }
-
-    /**
-     * This is here to unit test this class.
-     * @param argv
-     */
-    public static void main(String[] argv) {
-        OpenCsvAssetReader reader = new OpenCsvAssetReader();
-        
-        reader.addAssetListener(new LoggingAssetListener());
-        reader.openFileByName("input.csv");
-        reader.run();
     }
 }

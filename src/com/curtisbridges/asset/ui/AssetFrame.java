@@ -2,6 +2,7 @@ package com.curtisbridges.asset.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -224,7 +225,7 @@ public class AssetFrame extends JFrame implements AssetListener {
             super();
 
             add(createFileMenu());
-            add(createEditMenu());
+//            add(createEditMenu());
             add(createHelpMenu());
         }
 
@@ -262,6 +263,13 @@ public class AssetFrame extends JFrame implements AssetListener {
                     outputFile = createOutputFile(inputFile, getReportText()+".html");
                     writer.openFile(outputFile.getAbsolutePath());
                     writer.writeAssets(assets);
+                    
+                    try {
+                        Desktop.getDesktop().open(outputFile);
+                    }
+                    catch(IOException exc) {
+                        exc.printStackTrace();
+                    }
                 }
             });
             item.add(exportHtmlItem);
@@ -279,6 +287,7 @@ public class AssetFrame extends JFrame implements AssetListener {
             return menu;
         }
 
+        @SuppressWarnings("unused")
         private JMenu createEditMenu() {
             JMenu menu = new JMenu("Edit");
 
