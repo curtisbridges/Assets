@@ -37,6 +37,7 @@ public abstract class AbstractAssetWriter implements AssetWriter {
     };
     private static final String MICROSOFT = "Microsoft ";
     
+    protected String filename;
     protected BufferedWriter writer;
     protected List<AssetFilter> rowFilters;
     protected MultiPatternAssetFilter multiFilter;
@@ -80,7 +81,9 @@ public abstract class AbstractAssetWriter implements AssetWriter {
     }
     
     @Override
-    public void openFile(String filename) {
+    public void openFile(String name) {
+        filename = name;
+        
         Path path = FileSystems.getDefault().getPath(filename);
 
         Charset charset = Charset.forName("UTF-8");
@@ -90,6 +93,13 @@ public abstract class AbstractAssetWriter implements AssetWriter {
         catch(IOException exc) {
             exc.printStackTrace();
         }
+    }
+    
+    public String getReportName() {
+        if(filename != null)
+            return filename.substring(filename.lastIndexOf("\\")+1, filename.lastIndexOf('.'));
+        else
+            return "Asset Report";
     }
     
     @Override

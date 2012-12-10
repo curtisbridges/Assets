@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.RowFilter;
+import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -46,6 +47,7 @@ import com.curtisbridges.asset.io.HtmlAssetWriter;
 import com.curtisbridges.asset.io.OpenCsvAssetReader;
 import com.curtisbridges.ui.StatusBar;
 import com.curtisbridges.ui.util.ScreenUtilities;
+import com.curtisbridges.ui.util.SpringUtilities;
 
 @SuppressWarnings("serial")
 public class AssetFrame extends JFrame implements AssetListener {
@@ -57,6 +59,8 @@ public class AssetFrame extends JFrame implements AssetListener {
 
     private static final String ICON = "images/favicon.png";
     private ImageIcon           icon;
+    
+    private JTextField          reportNameField;
     private JTextField          filterField;
     private JLabel              rowsLabel;
     private JTabbedPane         tabs;
@@ -97,16 +101,24 @@ public class AssetFrame extends JFrame implements AssetListener {
 
     private JPanel createNorthPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-
-        panel.add(new JLabel("Filter:"), BorderLayout.WEST);
-
+        panel.setLayout(new SpringLayout());
+        
         filterField = new JTextField(50);
         filterField.addKeyListener(new FilterKeyListener());
-        panel.add(filterField, BorderLayout.CENTER);
         rowsLabel = new JLabel();
-        panel.add(rowsLabel, BorderLayout.EAST);
+        JPanel rightAlignPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightAlignPanel.add(rowsLabel);
+        reportNameField = new JTextField(50);        
+        
+        panel.add(new JLabel("Report name:"));
+        panel.add(reportNameField);
+        panel.add(new JPanel());
+        
+        panel.add(new JLabel("Filter:"));
+        panel.add(filterField);
+        panel.add(rightAlignPanel);
+        
+        SpringUtilities.makeCompactGrid(panel, 2, 3, 5, 5, 5, 5);
 
         return panel;
     }
@@ -236,7 +248,7 @@ public class AssetFrame extends JFrame implements AssetListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     CsvAssetWriter writer = new CsvAssetWriter();
-                    outputFile = createOutputFile(inputFile, "output.csv");
+                    outputFile = createOutputFile(inputFile, getReportText()+".csv");
                     writer.openFile(outputFile.getAbsolutePath());
                     writer.writeAssets(assets);
                 }
@@ -247,7 +259,7 @@ public class AssetFrame extends JFrame implements AssetListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     HtmlAssetWriter writer = new HtmlAssetWriter();
-                    outputFile = createOutputFile(inputFile, "output.html");
+                    outputFile = createOutputFile(inputFile, getReportText()+".html");
                     writer.openFile(outputFile.getAbsolutePath());
                     writer.writeAssets(assets);
                 }
@@ -343,6 +355,9 @@ public class AssetFrame extends JFrame implements AssetListener {
         List<ConsolidatedAsset> consolidated = AssetConsolidator.process(assets);
         assetTableModel.setAssets(consolidated);
         
+        reportNameField.setText(getDefaultReportText());
+        reportNameField.selectAll();
+        
         setRows(consolidated.size());
         doSorting();
     }
@@ -360,6 +375,26 @@ public class AssetFrame extends JFrame implements AssetListener {
         JProgressBar bar = statusBar.getProgressBar();
         bar.setIndeterminate(false);
         bar.setVisible(false);
+    }
+    
+    private String getDefaultReportText() {
+        if(inputFile != null) {
+            String name = inputFile.getName();
+            return name.substring(0, name.length()-".csv".length());
+        }
+        else {
+            return "CinchIT Asset Report";
+        }
+    }
+    
+    private String getReportText() {
+        String text = reportNameField.getText();
+        if(text != null && !text.isEmpty()) {
+            return text;
+        }
+        else {
+            return "output";
+        }
     }
     
     private File createOutputFile(File inputFile, String name) {

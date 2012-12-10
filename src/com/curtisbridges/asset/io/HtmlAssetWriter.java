@@ -51,8 +51,6 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("<td>");
         buffer.append(name);
         buffer.append("</td><td>");
-//        buffer.append(getProp(props, PROP_NETBIOS));
-//        buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_USER));
         buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_MODEL));
@@ -72,13 +70,14 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         StringBuffer buffer = new StringBuffer();
         buffer.append("<html>\n");
         buffer.append("<title>Computer Services and Support Worcester MA | Cinch IT Inc.</title>\n");
-        buffer.append("<table width=\"100%\">\n");
+        buffer.append("<table width=\"800\">\n");
         buffer.append("<tr><td align=\"left\">");
         buffer.append("<img src=\"https://lh5.googleusercontent.com/-ISM4oB5WR0E/UMUuh7P4ToI/AAAAAAAAJ70/tCVIbHvfEiU/s222/image001.jpg\">");
-        buffer.append("</td><td align=\"right\">");
-        Date date = new Date();
-        DateFormat fmt = DateFormat.getDateInstance();
-        buffer.append("Reported: " + fmt.format(date));
+        buffer.append("<td align=\"center\"><h1>");
+        buffer.append(getReportName());
+        buffer.append("</h1><br>");
+//        buffer.append("</td><td align=\"right\">");
+        buffer.append("Reported: " + getDateString());
         buffer.append("</td></tr>\n</table>\n");
         
         buffer.append("<table><tr>");
@@ -90,6 +89,12 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("</tr>\n");
         return buffer.toString();
     }
+    
+    private String getDateString() {
+        Date date = new Date();
+        DateFormat fmt = DateFormat.getDateInstance();
+        return fmt.format(date);
+    }
 
     @Override
     protected String getFooter() {
@@ -98,12 +103,13 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("</table>\n<br />\n");
         buffer.append("Legend<br />");
         buffer.append("<table>\n<tr><th>RAM</th><th>OS</th></tr>\n");
-        buffer.append("<tr style=\"background-color: " + COLOR_RED + ";\"><td>&lt2GB</td><td>Windows XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_ORANGE + ";\"><td>&lt3GB</td><td>Windows XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_YELLOW + ";\"><td>&gt3GB</td><td>Windows XP</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_BLUE + ";\"><td>&lt3GB</td><td>Windows 7</td></tr>");
-        buffer.append("<tr style=\"background-color: " + COLOR_GREEN + ";\"><td>&gt3GB</td><td>Windows 7</td></tr>");
-        buffer.append("</table>");
+        buffer.append("<tr style=\"background-color: " + COLOR_RED + ";\"><td>&lt2GB</td><td>Windows XP</td></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_ORANGE + ";\"><td>&lt3GB</td><td>Windows XP</td></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_YELLOW + ";\"><td>&gt3GB</td><td>Windows XP</td></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_BLUE + ";\"><td>&lt3GB</td><td>Windows 7</td></tr>\n");
+        buffer.append("<tr style=\"background-color: " + COLOR_GREEN + ";\"><td>&gt3GB</td><td>Windows 7</td></tr>\n");
+        buffer.append("</table>\n");
+        buffer.append("<a http://www.cinchit.com/>CinchIT</a>\n");
         buffer.append("</html>\n");
         
         return buffer.toString();
