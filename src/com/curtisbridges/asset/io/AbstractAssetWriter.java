@@ -33,7 +33,7 @@ public abstract class AbstractAssetWriter implements AssetWriter {
     
     // Asset Name, Bios Name, User, Model, Serial, Ram, OS
     protected static final String[] HEADERS = { 
-        "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "RAM", "Operating System" 
+        "#", "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "RAM", "Operating System" 
     };
     private static final String MICROSOFT = "Microsoft ";
     

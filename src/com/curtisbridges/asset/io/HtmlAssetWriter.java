@@ -32,6 +32,8 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
     private static final String COLOR_GREEN =  "#6FC965";
     private static final String COLOR_BLUE = "#6B93FF";
     private static final String COLOR_NONE = "";
+    
+    private int number;
 
     // Asset Name, Bios Name, User, Model, Serial, Ram, OS
     @Override
@@ -48,6 +50,9 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         else
             buffer.append("<tr style=\"background-color: " + color + ";\">");
         
+        buffer.append("<td>");
+        buffer.append(number++);
+        buffer.append("</td>");
         buffer.append("<td>");
         buffer.append(name);
         buffer.append("</td><td>");
@@ -67,6 +72,8 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
 
     @Override
     protected String getHeader() {
+        number = 1;
+        
         StringBuffer buffer = new StringBuffer();
         buffer.append("<html>\n");
         buffer.append("<title>Computer Services and Support Worcester MA | Cinch IT Inc.</title>\n");
@@ -76,11 +83,10 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("<td align=\"center\"><h1>");
         buffer.append(getReportName());
         buffer.append("</h1><br>");
-//        buffer.append("</td><td align=\"right\">");
         buffer.append("Reported: " + getDateString());
         buffer.append("</td></tr>\n</table>\n");
         
-        buffer.append("<table><tr>");
+        buffer.append("<table>\n<tr>");
         for(String header : HEADERS) {
             buffer.append("<th>");
             buffer.append(header);
