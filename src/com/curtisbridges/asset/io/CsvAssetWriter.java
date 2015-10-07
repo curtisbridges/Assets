@@ -27,7 +27,11 @@ public class CsvAssetWriter extends AbstractAssetWriter {
         buffer.append(",");
         buffer.append(getProp(props, PROP_SN));
         buffer.append(",");
+        buffer.append(getProp(props, PROP_NAME));
+        buffer.append(",");
         buffer.append(getProp(props, PROP_MEM));
+        buffer.append(",");
+        buffer.append(getProp(props, PROP_MAX_CAPACITY));
         buffer.append(",");
         buffer.append(getProp(props, PROP_OS));
         buffer.append("\n");

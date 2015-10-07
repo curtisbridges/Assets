@@ -21,19 +21,23 @@ import com.curtisbridges.asset.PatternAssetFilter;
 
 public abstract class AbstractAssetWriter implements AssetWriter {
     protected static final String TYPE_COMP_SYS = "Computer System";
+    protected static final String TYPE_PROCESSOR = "Processor";
+    protected static final String TYPE_LOGICAL_DEVICE = "Logical Device";
     protected static final String TYPE_USER = "Last Logged In User";
     protected static final String TYPE_OS = "Operating System";
     
     protected static final String PROP_MODEL = "Model";
     protected static final String PROP_NETBIOS = "NetBios name";
     protected static final String PROP_SN = "Serial number";
+    protected static final String PROP_NAME = "Name";
     protected static final String PROP_MEM = "Total Physical Memory";
+    protected static final String PROP_MAX_CAPACITY = "Max capacity";
     protected static final String PROP_USER = "User name ";
     protected static final String PROP_OS = "Reported OS";
     
     // Asset Name, Bios Name, User, Model, Serial, Ram, OS
     protected static final String[] HEADERS = { 
-        "#", "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "RAM", "Operating System" 
+        "#", "Computer Name", "Primary User", PROP_MODEL, PROP_SN, "CPU", "RAM", "Drive", "Operating System" 
     };
     private static final String MICROSOFT = "Microsoft ";
     
@@ -61,11 +65,15 @@ public abstract class AbstractAssetWriter implements AssetWriter {
                 PatternAssetFilter.WILDCARD);
         AssetFilter col3 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_COMP_SYS, PROP_SN, 
                 PatternAssetFilter.WILDCARD);
-        AssetFilter col4 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_COMP_SYS, PROP_MEM, 
+        AssetFilter col4 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_PROCESSOR, PROP_NAME, 
                 PatternAssetFilter.WILDCARD);
-        AssetFilter col5 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_OS, PROP_OS, 
+        AssetFilter col5 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_COMP_SYS, PROP_MEM, 
                 PatternAssetFilter.WILDCARD);
-        AssetFilter col6 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_USER, PROP_USER, 
+        AssetFilter col6 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_LOGICAL_DEVICE, PROP_MAX_CAPACITY, 
+                PatternAssetFilter.WILDCARD);
+        AssetFilter col7 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_OS, PROP_OS, 
+                PatternAssetFilter.WILDCARD);
+        AssetFilter col8 = new PatternAssetFilter(PatternAssetFilter.WILDCARD, TYPE_USER, PROP_USER, 
                 PatternAssetFilter.WILDCARD);
         
         List<AssetFilter> filters = new ArrayList<AssetFilter>();
@@ -76,6 +84,8 @@ public abstract class AbstractAssetWriter implements AssetWriter {
         filters.add(col4);
         filters.add(col5);
         filters.add(col6);
+        filters.add(col7);
+        filters.add(col8);
         
         return filters;
     }

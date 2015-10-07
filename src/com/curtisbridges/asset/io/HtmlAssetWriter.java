@@ -62,7 +62,11 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
         buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_SN));
         buffer.append("</td><td>");
+        buffer.append(getProp(props, PROP_NAME));
+        buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_MEM));
+        buffer.append("</td><td>");
+        buffer.append(getProp(props, PROP_MAX_CAPACITY));
         buffer.append("</td><td>");
         buffer.append(getProp(props, PROP_OS));
         buffer.append("</td></tr>\n");
@@ -168,11 +172,18 @@ public class HtmlAssetWriter extends AbstractAssetWriter {
             else if(ram.endsWith("MB")) {
                 multiplier = MEGABYTE;
             }
-            else if(ram.endsWith("KB"))
+            else if(ram.endsWith("KB")) {
                 multiplier = KILOBYTE;
-            
-            double value = Double.parseDouble(ram.substring(0, ram.length()-2));
-            return value * multiplier;
+            }
+
+            if(ram.length() >=2) {
+	            String string = ram.substring(0, ram.length()-2);
+	            double value = Double.parseDouble(string);
+	            return value * multiplier;
+            } else {
+            	System.err.println("Bad ram value: " + ram);
+            	return 0.0;
+            }
         }
         else {
             return 0;
